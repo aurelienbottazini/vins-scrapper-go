@@ -13,15 +13,16 @@ func (t DumbScrapper) ScrapState() int      { return Done }
 func (t DumbScrapper) ScrapMessage() string { return "dumb message" }
 
 func TestScrapperInterface(t *testing.T) {
-	// t.Fatal("not implemented")
 	var d Scrapper = DumbScrapper{}
 	p := d.Progress()
-	if p != 3 {
-		t.Errorf("d.Progress() = %d; want 3", p)
+	want := 3
+	if p != want {
+		t.Errorf("d.Progress() = %d; want %d", p, want)
 	}
 
 	s := d.ScrapState()
-	if s != Done {
-		t.Errorf("d.ScrapState() = %d; want Done (2)", s)
+	want = Done
+	if s != want {
+		t.Errorf("d.ScrapState() = %d; want %d", s, want)
 	}
 }

@@ -41,20 +41,29 @@ func layout(g *gocui.Gui) error {
 
 		// Find and visit all links
 		c.OnHTML("a[href]", func(e *colly.HTMLElement) {
-			e.Request.Visit(e.Attr("href"))
+			err := e.Request.Visit(e.Attr("href"))
+			if err != nil {
+				return
+			}
 		})
 
 		c.OnRequest(func(r *colly.Request) {
 			fmt.Println("Visiting", r.URL)
 		})
 
-		c.Visit("https://www.auray.me/")
+		err := c.Visit("https://www.auray.me/")
+		if err != nil {
+			return err
+		}
 
-		fmt.Fprintln(v, "Hello world!")
+		_, err2 := fmt.Fprintln(v, "Hello world!")
+		if err2 != nil {
+			return err2
+		}
 	}
 	return nil
 }
 
-func quit(g *gocui.Gui, v *gocui.View) error {
+func quit(_ *gocui.Gui, _ *gocui.View) error {
 	return gocui.ErrQuit
 }
